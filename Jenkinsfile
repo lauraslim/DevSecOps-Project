@@ -42,7 +42,7 @@ pipeline{
         /* stage('OWASP FS SCAN') {
             steps {
                 dependencyCheck additionalArguments: '--scan ./ ', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+                dependencyCheckPublisher pattern: '**//*dependency-check-report.xml'
             }
         } */
         stage('TRIVY FS SCAN') {
