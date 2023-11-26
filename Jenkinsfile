@@ -55,8 +55,8 @@ pipeline{
                 script{
                    withDockerRegistry(credentialsId: 'dockerhub-cred', toolName: 'docker'){   
                        sh "docker build --build-arg TMDB_V3_API_KEY=14a123006d91222e5e99d99f8911cd5b -t netflix ."
-                       sh "docker tag netflix lauradocker84/netflix:2 "
-                       sh "docker push lauradocker84/netflix:2 "
+                       sh "docker tag netflix lauradocker84/netflix:new "
+                       sh "docker push lauradocker84/netflix:new "
                     }
                 }
             }
@@ -64,12 +64,12 @@ pipeline{
         
         stage("TRIVY"){
             steps{
-                sh "trivy image lauradocker84/netflix:2 > trivyimage.txt" 
+                sh "trivy image lauradocker84/netflix:new > trivyimage.txt" 
             }
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d -p 8082:80 lauradocker84/netflix:2'
+                sh 'docker run -d -p 8083:80 lauradocker84/netflix:new'
             }
         }
     }
@@ -80,7 +80,7 @@ pipeline{
                     body: "Project: ${env.JOB_NAME}<br/>" +
                         "Build Number: ${env.BUILD_NUMBER}<br/>" +
                         "URL: ${env.BUILD_URL}<br/>",
-                    to: 'laurakonissi@gmail.com',
+                    to: 'sadialaura84@gmail.com',
                     attachmentsPattern: 'trivy.txt,trivyimage.txt'
             }
         }
